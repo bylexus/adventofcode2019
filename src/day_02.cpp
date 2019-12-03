@@ -3,29 +3,13 @@
 #include <fstream>
 #include <math.h>
 #include <vector>
+#include "common.h"
 
 using namespace std;
 
 /**
  * Day 2 - Program Alarm
  */
-
-
-/**
- * Read data from file - split by line/delimiter
- *
- * Fills a vector with all input data
- */
-void readData(char *filename, char delim, vector<long> &data)
-{
-    ifstream infile(filename);
-    string token;
-    long nr;
-    while(getline(infile, token, delim)) {
-        istringstream(token) >> nr;
-        data.push_back(nr);
-    }
-}
 
 long runProgram(vector<long> &data)
 {
@@ -73,7 +57,7 @@ int main(int argc, char *args[])
 
     // Read input file:
     vector<long> data;
-    readData(args[1], ',',data);
+    readData<long>(args[1], ',',data);
 
 
 
