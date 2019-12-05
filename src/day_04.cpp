@@ -9,38 +9,49 @@ using namespace std;
  * Day 4 - Secure Container
  */
 
-bool checkIncrease(const string &input) {
-    for (int i = 0; i < input.length() - 1; i++) {
-        if (input[i] > input[i+1]) {
+bool checkIncrease(const string &input)
+{
+    for (string::size_type i = 0; i < input.length() - 1; i++)
+    {
+        if (input[i] > input[i + 1])
+        {
             return false;
         }
     }
     return true;
-
 }
 
-bool checkDigitPair(const string &input) {
-    for (int i = 0; i < input.length() - 1; i++) {
-        if (input[i] == input[i+1]) {
+bool checkDigitPair(const string &input)
+{
+    for (string::size_type i = 0; i < input.length() - 1; i++)
+    {
+        if (input[i] == input[i + 1])
+        {
             return true;
         }
     }
     return false;
 }
 
-bool checkDigitExactPair(const string &input) {
+bool checkDigitExactPair(const string &input)
+{
     char nr = -1;
     char count = 0;
 
-    for (int i = 0; i < input.length(); i++) {
+    for (string::size_type i = 0; i < input.length(); i++)
+    {
         char actNr = input[i];
-        if (actNr != nr) {
-            if (count == 2) {
+        if (actNr != nr)
+        {
+            if (count == 2)
+            {
                 return true;
             }
             count = 1;
             nr = actNr;
-        } else {
+        }
+        else
+        {
             count++;
         }
     }
@@ -54,13 +65,17 @@ int main(int argc, char *args[])
     int solutions1 = 0;
     int solutions2 = 0;
 
-    for (int act = minInput; act <= maxInput; act++) {
+    for (int act = minInput; act <= maxInput; act++)
+    {
         string nrStr = to_string(act);
-        if (checkIncrease(nrStr)) {
-            if (checkDigitPair(nrStr)) {
+        if (checkIncrease(nrStr))
+        {
+            if (checkDigitPair(nrStr))
+            {
                 solutions1++;
             }
-            if (checkDigitExactPair(nrStr)) {
+            if (checkDigitExactPair(nrStr))
+            {
                 solutions2++;
             }
         }

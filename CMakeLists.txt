@@ -8,7 +8,10 @@ add_executable(day_01 src/day_01.cpp)
 add_executable(day_02 src/day_02.cpp src/common.cpp)
 add_executable(day_03 src/day_03.cpp src/common.cpp)
 add_executable(day_04 src/day_04.cpp src/common.cpp)
+add_executable(day_05 src/day_05.cpp src/common.cpp)
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
