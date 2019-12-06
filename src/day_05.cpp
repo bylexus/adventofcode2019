@@ -11,8 +11,10 @@ using namespace std;
  * Day 5 - Sunny with a Chance of Asteroids
  */
 
-vector<long> inputData;
-vector<long>::size_type inputDataPointer;
+typedef vector<long> memory_t;
+
+memory_t inputData;
+memory_t::size_type inputDataPointer;
 
 /**
  * extracts thae param modes from the whole opcode number.
@@ -49,7 +51,7 @@ void readParamModesFromOpcode(long opcode, vector<int> &modes) {
  * if paramMode is 0, this means position mode: The value at iPointer is a POINTER to the actual value
  * if paramMode is 1, this means immediate mode: The value at iPointer is the actual value
  */
-long getValue(vector<long> &data, vector<long>::size_type iPointer, int paramMode) {
+long getValue(memory_t &data, memory_t::size_type iPointer, int paramMode) {
     if (paramMode == 0) {
         // position mode: data[iPointer] is a position pointer
         long valPos = data[iPointer];
@@ -68,7 +70,7 @@ long getValue(vector<long> &data, vector<long>::size_type iPointer, int paramMod
  * @param iPointer The actual instruction pointer
  * @param data The memory. iPointer should now point to an opcode value
  */
-vector<long>::size_type executeInstruction(vector<long>::size_type iPointer, vector<long> &data)
+memory_t::size_type executeInstruction(memory_t::size_type iPointer, memory_t &data)
 {
     // Opcode: The last 2 digits are the opcode, the rest is param modes, e.g.:
     // "10102": --> "101" are param modes, "02" is the opcode 2.
@@ -174,9 +176,9 @@ vector<long>::size_type executeInstruction(vector<long>::size_type iPointer, vec
 /**
  * Run program until the end, instruction-by-instruction
  */
-long runProgram(vector<long> &data)
+long runProgram(memory_t &data)
 {
-    vector<long>::size_type instructionPointer = 0;
+    memory_t::size_type instructionPointer = 0;
     while (instructionPointer < data.size())
     {
         instructionPointer = executeInstruction(instructionPointer, data);
@@ -193,20 +195,20 @@ int main(int argc, char *args[])
     }
 
     // Read input file:
-    vector<long> data;
+    memory_t data;
     readData<long>(args[1], ',', data);
 
     // Solution 1: Input data: 1
     inputData = vector<long>{1};
     inputDataPointer = 0;
-    vector<long> workingData(data);
+    memory_t workingData(data);
     runProgram(workingData);
     cout << "Solution 1: Data at pos 0 after program end: " << workingData[0] << endl << endl;
 
     // Solution 2: Input data: 5
     inputData = vector<long>{5};
     inputDataPointer = 0;
-    workingData = vector<long>(data);
+    workingData = memory_t(data);
     runProgram(workingData);
     cout << "Solution 2: Data at pos 0 after program end: " << workingData[0] << endl;
 }

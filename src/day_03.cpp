@@ -9,7 +9,13 @@
 
 using namespace std;
 
-/**
+class Point;
+class Segment;
+typedef vector<Segment> wire_t;
+typedef vector<wire_t> wire_container_t;
+typedef wire_container_t::iterator wire_container_it_t;
+
+    /**
  * Day 3 - Crossed Wires
  *
  * This solution is not optimized: the basic idea is to define horizontal and vertical
@@ -20,20 +26,23 @@ using namespace std;
  * but it could fast be not feasible anymore.
  */
 
-class Point {
-    public:
-        int x,y;
+class Point
+{
+public:
+    int x, y;
 
-        Point() {
-            x = 0;
-            y = 0;
-        }
+    Point()
+    {
+        x = 0;
+        y = 0;
+    }
 
-        Point(int x, int y): x(x), y(y) { }
+    Point(int x, int y) : x(x), y(y) {}
 
-        int manhattanDist(const Point &other) {
-            return abs( this->x - other.x ) + abs(this->y - other.y);
-        }
+    int manhattanDist(const Point &other)
+    {
+        return abs(this->x - other.x) + abs(this->y - other.y);
+    }
 };
 
 /**
@@ -118,7 +127,7 @@ int main(int argc, char *args[])
     vector<string> data;
     readData<string>(args[1], '\n',data);
 
-    vector<vector<Segment>> wires;
+    wire_container_t wires;
 
 
     // Split input:
@@ -129,7 +138,7 @@ int main(int argc, char *args[])
         lastX = 0; lastY = 0;
         vector<string> tokens;
         cout << "line: " << line << endl;
-        vector<Segment> wire;
+        wire_t wire;
         split(line, ',', tokens);
         for (auto token : tokens) {
             cout << "  " << token << endl;
@@ -152,14 +161,14 @@ int main(int argc, char *args[])
     // Run through all wires: check all segments of the actual wire for intersections with all other wire segments.
     Point *nearestIntersection = nullptr;
     int minWireDistToIntersection = 0;
-    for (vector<vector<Segment>>::iterator actWireIt = wires.begin(); actWireIt != wires.end(); ++actWireIt) {
+    for (wire_container_it_t actWireIt = wires.begin(); actWireIt != wires.end(); ++actWireIt) {
         // counts the already iterated total length of the actual wire. Needed for Solution 2
         int actWireRunDist = 0;
 
         cout << "Working on wire: nr of segments: " << actWireIt->size() << endl;
         for (auto actSegment : *actWireIt) {
             // go through all following wires, and all their segments, and check for intersections:
-            for (vector<vector<Segment>>::iterator otherWireIt = actWireIt+1; otherWireIt != wires.end(); ++otherWireIt) {
+            for (wire_container_it_t otherWireIt = actWireIt+1; otherWireIt != wires.end(); ++otherWireIt) {
                 // counts the already iterated total length of the other wire. Needed for Solution 2
                 int otherWireRunDist = 0;
 

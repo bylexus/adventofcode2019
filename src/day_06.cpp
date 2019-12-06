@@ -12,19 +12,26 @@ using namespace std;
  * Day 6 - Universal Orbit Map
  */
 
+typedef map<string, string> orbit_map_t;
+typedef vector<string> path_t;
 
 /**
  * Counts the orbit path traversals, recursively, from a start planet to a target planet, and fills
  * the traversed planets into a path vector.
  */
-int orbitPath(const string &planet, const string &target, map<string,string> &orbitMap, vector<string> &path) {
+int orbitPath(const string &planet, const string &target, orbit_map_t &orbitMap, path_t &path)
+{
     path.push_back(planet);
 
-    if (planet.compare(target) == 0) {
+    if (planet.compare(target) == 0)
+    {
         return 0;
-    } else {
-        map<string,string>::iterator it = orbitMap.find(planet);
-        if (it != orbitMap.end()) {
+    }
+    else
+    {
+        orbit_map_t::iterator it = orbitMap.find(planet);
+        if (it != orbitMap.end())
+        {
             string orbitParent = it->second;
             return orbitPath(orbitParent, target, orbitMap, path) + 1;
         }
@@ -43,35 +50,41 @@ int main(int argc, char *args[])
     // Read input file:
     // Build a map: Outer Planet --> InnerPlanet:
     vector<string> data;
-    vector<string> youPath;
-    vector<string> sanPath;
-    vector<string> tempPath;
-    map<string,string> orbitMap;
+    path_t youPath;
+    path_t sanPath;
+    path_t tempPath;
+    orbit_map_t orbitMap;
     int orbitCount = 0;
     readData<string>(args[1], '\n', data);
-    for (auto line : data) {
+    for (auto line : data)
+    {
         vector<string> planets;
         split(line, ')', planets);
         orbitMap.insert(pair<string, string>(planets[1], planets[0]));
     }
 
     // Traverse the tree backwards (from leafes to trunk (COM)), counting traverses:
-    for (map<string,string>::iterator it = orbitMap.begin(); it != orbitMap.end(); ++it) {
+    for (orbit_map_t::iterator it = orbitMap.begin(); it != orbitMap.end(); ++it)
+    {
         string outer = it->first;
         string inner = it->second;
         // Fill 2 special orbit paths for YOU ans SAN, for the 2nd part
         // For the 1st part, the orbit paths are not relevant
-        if (outer.compare("YOU") == 0) {
+        if (outer.compare("YOU") == 0)
+        {
             orbitCount += orbitPath(outer, "COM", orbitMap, youPath);
-        } else if (outer.compare("SAN") == 0) {
+        }
+        else if (outer.compare("SAN") == 0)
+        {
             orbitCount += orbitPath(outer, "COM", orbitMap, sanPath);
-        } else {
+        }
+        else
+        {
             orbitCount += orbitPath(outer, "COM", orbitMap, tempPath);
         }
     }
 
     cout << "Solution 1: Total Orbit count: " << orbitCount << endl;
-
 
     /**
      * Idea for solution 2:
@@ -86,9 +99,11 @@ int main(int argc, char *args[])
     int sanCount = 0;
     // find 1st intersection planet of both orbit paths,
     // while counting both path distances to the intersection:
-    for (auto youPlanet : youPath) {
+    for (auto youPlanet : youPath)
+    {
         auto it = find(sanPath.begin(), sanPath.end(), youPlanet);
-        if (it != sanPath.end()) {
+        if (it != sanPath.end())
+        {
             cout << "Found intersecting planet: " << *it << endl;
             sanCount = distance(sanPath.begin(), it);
             const string intersection(*it);

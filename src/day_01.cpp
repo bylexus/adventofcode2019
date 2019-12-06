@@ -20,7 +20,8 @@ using namespace std;
  * until the outcoming mass is <= 0
  */
 
-long calcFuel(long mass) {
+long calcFuel(long mass)
+{
     return floor(mass / 3.0) - 2;
 }
 
@@ -30,11 +31,15 @@ long calcFuel(long mass) {
  * Take the fuel output as mass, too, calculate until the outcoming
  * fuel is <= 0:
  */
-long calcFuelRecursive(long mass) {
+long calcFuelRecursive(long mass)
+{
     long fuel = calcFuel(mass);
-    if (fuel > 0) {
+    if (fuel > 0)
+    {
         return fuel + calcFuelRecursive(fuel);
-    } else return 0;
+    }
+    else
+        return 0;
 }
 
 int main()
@@ -45,7 +50,8 @@ int main()
     long fuelSum = 0;
     long fuelWithFuelSum = 0;
 
-    while(getline(infile, line)) {
+    while (getline(infile, line))
+    {
         istringstream(line) >> nr;
         fuelSum += (nr > 0 ? calcFuel(nr) : 0);
         fuelWithFuelSum += (nr > 0 ? calcFuelRecursive(nr) : 0);
