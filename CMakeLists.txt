@@ -9,6 +9,7 @@ add_executable(day_02 src/day_02.cpp src/common.cpp)
 add_executable(day_03 src/day_03.cpp src/common.cpp)
 add_executable(day_04 src/day_04.cpp src/common.cpp)
 add_executable(day_05 src/day_05.cpp src/common.cpp)
+add_executable(day_06 src/day_06.cpp src/common.cpp)
 
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
