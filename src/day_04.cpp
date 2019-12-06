@@ -58,7 +58,7 @@ bool checkDigitExactPair(const string &input)
     return count == 2;
 }
 
-int main(int argc, char *args[])
+int main()
 {
     int minInput = 206938;
     int maxInput = 679128;

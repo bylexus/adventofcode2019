@@ -4,12 +4,23 @@ project(adventofcode2019 VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_library(common src/common.cpp)
+
 add_executable(day_01 src/day_01.cpp)
-add_executable(day_02 src/day_02.cpp src/common.cpp)
-add_executable(day_03 src/day_03.cpp src/common.cpp)
-add_executable(day_04 src/day_04.cpp src/common.cpp)
-add_executable(day_05 src/day_05.cpp src/common.cpp)
-add_executable(day_06 src/day_06.cpp src/common.cpp)
+add_executable(day_02 src/day_02.cpp)
+add_executable(day_03 src/day_03.cpp)
+add_executable(day_04 src/day_04.cpp)
+add_executable(day_05 src/day_05.cpp)
+add_executable(day_06 src/day_06.cpp)
+add_executable(day_07 src/day_06.cpp)
+
+target_link_libraries(day_01 PUBLIC common)
+target_link_libraries(day_02 PUBLIC common)
+target_link_libraries(day_03 PUBLIC common)
+target_link_libraries(day_04 PUBLIC common)
+target_link_libraries(day_05 PUBLIC common)
+target_link_libraries(day_06 PUBLIC common)
+target_link_libraries(day_07 PUBLIC common)
 
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")

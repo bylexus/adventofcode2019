@@ -82,8 +82,8 @@ class Segment {
             // Lines that run in the same direction do not intersect:
             if (this->align == other.align) return nullptr;
 
-            Segment *hSeg;
-            Segment *vSeg;
+            Segment *hSeg = nullptr;
+            Segment *vSeg = nullptr;
             if (this->align == 'h') {
                 hSeg = this;
                 vSeg = &other;

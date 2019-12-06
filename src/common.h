@@ -1,3 +1,6 @@
+#ifndef COMMON_H
+#define COMMON_H
+
 #include <vector>
 
 using namespace std;
@@ -9,5 +12,5 @@ using namespace std;
  */
 template<typename T>
 void readData(char *filename, char delim, vector<T> &data);
-
 void split(const string &str, char delim, vector<string> &data);
+#endif
