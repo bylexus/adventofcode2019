@@ -19,9 +19,11 @@ typedef vector<string> path_t;
  * Counts the orbit path traversals, recursively, from a start planet to a target planet, and fills
  * the traversed planets into a path vector.
  */
-int orbitPath(const string &planet, const string &target, orbit_map_t &orbitMap, path_t &path)
+int orbitPath(const string &planet, const string &target, orbit_map_t &orbitMap, path_t* path)
 {
-    path.push_back(planet);
+    if (path != nullptr) {
+        path->push_back(planet);
+    }
 
     if (planet.compare(target) == 0)
     {
@@ -52,7 +54,6 @@ int main(int argc, char *args[])
     vector<string> data;
     path_t youPath;
     path_t sanPath;
-    path_t tempPath;
     orbit_map_t orbitMap;
     int orbitCount = 0;
     readData<string>(args[1], '\n', data);
@@ -72,15 +73,15 @@ int main(int argc, char *args[])
         // For the 1st part, the orbit paths are not relevant
         if (outer.compare("YOU") == 0)
         {
-            orbitCount += orbitPath(outer, "COM", orbitMap, youPath);
+            orbitCount += orbitPath(outer, "COM", orbitMap, &youPath);
         }
         else if (outer.compare("SAN") == 0)
         {
-            orbitCount += orbitPath(outer, "COM", orbitMap, sanPath);
+            orbitCount += orbitPath(outer, "COM", orbitMap, &sanPath);
         }
         else
         {
-            orbitCount += orbitPath(outer, "COM", orbitMap, tempPath);
+            orbitCount += orbitPath(outer, "COM", orbitMap, nullptr);
         }
     }
 
