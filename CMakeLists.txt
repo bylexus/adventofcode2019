@@ -4,6 +4,11 @@ project(adventofcode2019 VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include_directories(/opt/local/include)
+link_directories(/opt/local/lib)
+
+add_compile_definitions(cimg_display=0)
+
 add_library(common src/common.cpp)
 
 add_executable(day_01 src/day_01.cpp)
