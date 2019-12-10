@@ -19,6 +19,7 @@ add_executable(day_06 src/day_06.cpp)
 add_executable(day_07 src/day_07.cpp)
 add_executable(day_08 src/day_08.cpp)
 add_executable(day_09 src/day_09.cpp)
+add_executable(day_10 src/day_10.cpp)
 
 target_link_libraries(day_01 PUBLIC common)
 target_link_libraries(day_02 PUBLIC common)
@@ -29,6 +30,7 @@ target_link_libraries(day_06 PUBLIC common)
 target_link_libraries(day_07 PUBLIC common)
 target_link_libraries(day_08 PUBLIC common)
 target_link_libraries(day_09 PUBLIC common)
+target_link_libraries(day_10 PUBLIC common)
 
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
