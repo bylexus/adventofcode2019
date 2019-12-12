@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(adventofcode2019 VERSION 0.1.0)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(/opt/local/include)
@@ -21,6 +21,7 @@ add_executable(day_08 src/day_08.cpp)
 add_executable(day_09 src/day_09.cpp)
 add_executable(day_10 src/day_10.cpp)
 add_executable(day_11 src/day_11.cpp)
+add_executable(day_12 src/day_12.cpp)
 
 target_link_libraries(day_01 PUBLIC common)
 target_link_libraries(day_02 PUBLIC common)
@@ -33,6 +34,7 @@ target_link_libraries(day_08 PUBLIC common)
 target_link_libraries(day_09 PUBLIC common)
 target_link_libraries(day_10 PUBLIC common)
 target_link_libraries(day_11 PUBLIC common)
+target_link_libraries(day_12 PUBLIC common)
 
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
