@@ -16,9 +16,5 @@ $ make
 
 As always, it's a lot of work, and a lot of fun:
 
-<figure>
-<video controls autoplay>
-<source src="./src/day-13.mp4" type="video/mp4">
-</video>
-<figcaption>Day 13 - Solution in action</figcaption>
-</figure>
+
+[Link to Day 13 - Solution video](https://raw.githubusercontent.com/bylexus/adventofcode2019/master/day-13.mp4)
