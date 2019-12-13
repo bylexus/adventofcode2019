@@ -360,22 +360,22 @@ void printField()
             if (tile == 1)
             {
                 // wall
-                cout << "#";
+                cout << "▦";
             }
             if (tile == 2)
             {
                 // block
-                cout << "@";
+                cout << "▣";
             }
             if (tile == 3)
             {
                 // Paddle
-                cout << "=";
+                cout << "▬";
             }
             if (tile == 4)
             {
                 //Ball
-                cout << "*";
+                cout << "●";
             }
         }
         cout << endl;
@@ -509,10 +509,9 @@ void solution2(memory_t &data, bool withDisplay)
                 if (withDisplay && val == 4) {
                     printField();
                     cout << "Points: " << points << endl;
-                    std::chrono::milliseconds timespan(50);
+                    std::chrono::milliseconds timespan(10);
                     std::this_thread::sleep_for(timespan);
                 }
-
             }
         }
         else
