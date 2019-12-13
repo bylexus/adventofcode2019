@@ -1,9 +1,12 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <map>
 #include <queue>
 #include "common.h"
 #include <boost/multiprecision/cpp_int.hpp>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 using namespace boost::multiprecision;
@@ -379,7 +382,6 @@ void printField()
     }
 }
 
-
 void solution1(memory_t &data)
 {
     Program program(&data);
@@ -449,7 +451,7 @@ void solution1(memory_t &data)
     cout << "Solution 1: " << countBlockTiles << endl;
 }
 
-void solution2(memory_t &data)
+void solution2(memory_t &data, bool withDisplay)
 {
     // Insert free coin:
     data[cpp_int(0)] = 2;
@@ -457,7 +459,6 @@ void solution2(memory_t &data)
     Program program(&data);
 
     printField();
-    // return;
 
     // Play!
     int readX = 0, readY = 0, val = 0, points = 0;
@@ -479,8 +480,6 @@ void solution2(memory_t &data)
 
             if (readX == -1 && readY == 0)
             {
-                printField();
-                cout << "Points: " << val << endl;
                 points = val;
             }
             else
@@ -492,7 +491,7 @@ void solution2(memory_t &data)
                 }
                 if (val == 4)
                 {
-                    // paddle paint
+                    // ball paint
                     ballX = readX;
                 }
                 // Update field, bookkeeping:
@@ -507,6 +506,13 @@ void solution2(memory_t &data)
                     }
                 }
                 field[readX][readY] = val;
+                if (withDisplay && val == 4) {
+                    printField();
+                    cout << "Points: " << points << endl;
+                    std::chrono::milliseconds timespan(50);
+                    std::this_thread::sleep_for(timespan);
+                }
+
             }
         }
         else
@@ -540,5 +546,5 @@ int main(int argc, char *args[])
     memory_t run1_data(data);
     memory_t run2_data(data);
     solution1(run1_data);
-    solution2(run2_data);
+    solution2(run2_data, argc >= 3 && string("--display").compare(args[2]) == 0 ? true : false);
 }
