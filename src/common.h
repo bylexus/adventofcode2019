@@ -17,4 +17,6 @@ void readData(char *filename, char delim, vector<T> &data);
 void readLines(char *filename, vector<string> &data);
 
 void split(const string &str, char delim, vector<string> &data);
+
+string trim(const string &str);
 #endif
