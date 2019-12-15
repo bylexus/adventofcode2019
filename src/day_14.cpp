@@ -20,7 +20,6 @@ class Chemical;
 map<string, Chemical *> chemicalMap;
 
 cpp_int allOre(1000000000000);
-cpp_int totalOre(1000000000000);
 
 class Chemical
 {
@@ -53,7 +52,6 @@ cpp_int calcOre(Chemical *input)
         if (chem->name.compare("ORE") == 0)
         {
             oreAmount += chem->amount;
-            totalOre -= chem->amount;
             // cout << "Taking " << chem->amount << " of ORE" << endl;
         }
         else
