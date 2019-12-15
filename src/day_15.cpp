@@ -13,8 +13,11 @@ using namespace boost::multiprecision;
 using namespace boost;
 
 /**
- * Day 13 - Care Package
+ * Day 15 - Oxygen System
+ *
+ * Classical backtrack problem - at least for part 1.
  */
+
 class Point
 {
 public:
@@ -31,10 +34,6 @@ vector<vector<Point *>> floorMap;
  */
 typedef map<cpp_int, cpp_int>
     memory_t;
-
-// Globals
-// after some testing we can assume the field is not larger than that:
-// int field[50][50];
 
 /**
  * An AMP can be in one of the following states:
@@ -337,7 +336,12 @@ void runProgram(Program *program)
 }
 
 /**
- * Returns true if the position was new, so not yet visited
+ * Returns true if the position was new, so not yet visited,
+ * and stores the coordinate as new Point object with its original x/y values,
+ * and an object char (e.g. ' ' for floor, 'O' for oxygen ...)
+ *
+ * true means: new position, not yet visited
+ * false means: already seen, no action taken
  */
 bool markPosition(int x, int y, char object)
 {
@@ -358,7 +362,8 @@ bool markPosition(int x, int y, char object)
 }
 
 /**
- * returns true if the given position is not in the coords map: not visited yet
+ * returns true if the given position is not in the coords map: not visited yet,
+ * or false if the coordinate was already stored / visited.
  */
 bool checkPosition(int x, int y)
 {
@@ -366,22 +371,25 @@ bool checkPosition(int x, int y)
     return coords.count(key) == 0;
 }
 
+/**
+ * The workhorse for Solution 1: The backtrack mapping alrogithm:
+ *
+ * *** Assumption ***: This is a straight forward maze, with no loops and only one
+ * way to the exit .... may be this is a FALSE assumption, I don't know yet...
+ * we are at starX, starty.
+ * Main idea is to:
+ * - walk in each direction:
+ * - if a wall is hit, return "wall"
+ * - if we can walk, recurse:
+ *   - if recursion was successful, found the target, count steps
+ *     In this case, backtrack again, to find a (possibly) shorter way.
+ *   - if recursion hit a wall, move robot back to its startX, startY, backtrack
+ */
 cpp_int walk(Program *p, int startX, int startY, int moveCounter)
 {
     int origX = startX;
     int origY = startY;
-    /**
-     * *** Assumption ***: This is a straight forward maze, with no loops and only one
-     * way to the exit .... may be this is a FALSE assumption, I don't know yet...
-     * we are at starX, starty.
-     * Main idea is to:
-     * - walk in each direction:
-     * - if a wall is hit, return "wall"
-     * - if we can walk, recurse:
-     *   - if recursion was successful, found the target, count steps
-     *     In this case, backtrack again, to find a (possibly) shorter way.
-     *   - if recursion hit a wall, move robot back to its startX, startY, backtrack
-     */
+
     vector<int> dirs{1, 4, 2, 3}; // north, east, south, west
     markPosition(startX, startY, ' ');
 
@@ -392,30 +400,30 @@ cpp_int walk(Program *p, int startX, int startY, int moveCounter)
         startY = origY;
 
         // Try to walk in a direction:
-        bool posCheck = false;
-        if (dir == 1)
+        switch (dir)
         {
+        case 1:
             startY--;
-        }
-        if (dir == 2)
-        {
+            break;
+        case 2:
             startY++;
-        }
-        if (dir == 3)
-        {
+            break;
+        case 3:
             startX--;
-        }
-        if (dir == 4)
-        {
+            break;
+        case 4:
             startX++;
+            break;
         }
-        posCheck = checkPosition(startX, startY);
-        if (!posCheck)
+
+        // Check if we have visited the next position already: If so, do not consider
+        // it anymore, continue in the next direction:
+        if (!checkPosition(startX, startY))
         {
-            // Position already visited, continue in other direction:
             continue;
         }
 
+        // Move the robot in the actual direction:
         p->inputValues.push(cpp_int(dir));
         runProgram(p);
         cpp_int output = p->output;
@@ -427,19 +435,23 @@ cpp_int walk(Program *p, int startX, int startY, int moveCounter)
             continue;
         }
 
+        // Found oxygen system: Output movement counter, as this is solution 1,
+        // but continue mapping, as the whole map is needed for solutoin 2:
         if (output == 2)
         {
             markPosition(startX, startY, 'O');
-            // Yes, we self found the oxygen system.
             moveCounter++;
             cout << "Solution 1: Oxygen system found after " << moveCounter << " steps" << endl;
-            // exit(0);
             return output;
         }
 
-        // can move:
+        // The robot is moved to an empty, unvisited floor:
         if (output == 1)
         {
+            // Look forward by recursively start the walk() method again:
+            // It can only respond with 0 (hit wall somewhere beyond)
+            // or 2 (found oxygen source). In any case, step back to where the robot came,
+            // to map the other directions.
             cpp_int result{0};
             result = walk(p, startX, startY, moveCounter + 1);
 
@@ -450,37 +462,33 @@ cpp_int walk(Program *p, int startX, int startY, int moveCounter)
                 runProgram(p);
                 continue;
             }
+
+            // good, found the oxygen system somewhere ahead. Move on, to map the location
             if (result == 2)
             {
-                // good, found the oxygen system. End here.
-                // cout << "Solution 1: Oxygen system found after " << moveCounter << " steps" << endl;
-                // exit(0);
-                // return result;
-                // good, found the oxygen system somewhere ahead. Move on, to map the location
                 p->inputValues.push(cpp_int(dirs[(i + 2) % 4]));
                 runProgram(p);
+                continue;
             }
         }
     }
     // If we reach this far, we could not found any direction to walk to...
-    // This should not happen....
+    // We return with 'wall hit', as this is a dead end.
     return cpp_int(0);
 }
 
-void solution1(memory_t &data)
-{
-    Program program(&data);
-    map<string, vector<cpp_int>> paintArea;
-    vector<cpp_int> values;
-    cpp_int actInput;
-    while (program.state != P_HALT)
-    {
-        walk(&program, 0, 0, 0);
-        break;
-    }
-    // cout << "Solution 1: " << countBlockTiles << endl;
-}
-
+/**
+ * The backtrack function walk() has built a coordinate map
+ * with relative (to the start, which is 0/0) coordinates and unknown map size.
+ * Here we built a Y x X vector with normalized coordinates: Each entry contains
+ * a Point with its normalized coordinates and what it contains:
+ *
+ * object: ' ': empty floor
+ * object: '#': wall
+ * object: 'O': Oxygen source
+ *
+ * Returns the Point to the found Oxygen source
+ */
 Point *buildFloorMap()
 {
     int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
@@ -536,6 +544,10 @@ Point *buildFloorMap()
     return oxygenPos;
 }
 
+
+/**
+ * Prints the map in its current state as ASCII Art
+ */
 void printMap()
 {
     for (vector<vector<Point *>>::size_type y = 0; y < floorMap.size(); ++y)
@@ -563,8 +575,30 @@ void printMap()
     }
 }
 
+
 /**
- * Idea:
+ * Starts solution 1
+ */
+void solution1(memory_t &data)
+{
+    Program program(&data);
+    map<string, vector<cpp_int>> paintArea;
+    vector<cpp_int> values;
+    cpp_int actInput;
+    while (program.state != P_HALT)
+    {
+        walk(&program, 0, 0, 0);
+        break;
+    }
+}
+
+
+/**
+ * Starts solution 2
+ *
+ * Idea: Use a processing queue to process each inserted oxygen (and then its "childs"), until no more
+ * oxygen needs to be produced.
+ *
  * Start with the oxygen point. Create new oxygen in all 4 directions, until a wall is reached.
  * Register each new oxygen point in a "to process" list.
  * Now, process the "to process" list, do the same for each oxygen point, and register new oxygen.
@@ -636,7 +670,8 @@ void solution2(Point *oStart, bool display)
         processList = nextToProcess;
     }
     counter--; // one too much, last does not count
-    if (display) {
+    if (display)
+    {
         printMap();
     }
     cout << "Solution 2: Room filled after " << counter << " Minutes" << endl;
@@ -667,7 +702,8 @@ int main(int argc, char *args[])
     solution1(run1_data);
 
     Point *oxygenStart = buildFloorMap();
-    if (display) {
+    if (display)
+    {
         printMap();
     }
     solution2(oxygenStart, display);
