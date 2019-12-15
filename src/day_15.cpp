@@ -481,7 +481,7 @@ void solution1(memory_t &data)
     // cout << "Solution 1: " << countBlockTiles << endl;
 }
 
-Point* buildFloorMap()
+Point *buildFloorMap()
 {
     int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
     Point *oxygenPos;
@@ -512,10 +512,10 @@ Point* buildFloorMap()
         for (int x = minX; x <= maxX; ++x)
         {
             string key = to_string(x) + ":" + to_string(y);
+            Point *p;
             if (coords.count(key) > 0)
             {
-                Point *p = coords[key];
-                line.push_back(p);
+                p = coords[key];
                 if (p->object == 'O')
                 {
                     oxygenPos = p;
@@ -524,12 +524,12 @@ Point* buildFloorMap()
             else
             {
                 // Unknown location, not visited, must be unreachable wall
-                Point *p = new Point();
-                p->x = x;
-                p->y = y;
+                p = new Point();
                 p->object = '#';
-                line.push_back(p);
             }
+            p->x = x - minX;
+            p->y = y - minY;
+            line.push_back(p);
         }
         floorMap.push_back(line);
     }
@@ -552,6 +552,9 @@ void printMap()
             case '#':
                 cout << "▇";
                 break;
+            case 'O':
+                cout << "●";
+                break;
             default:
                 cout << block;
             }
@@ -560,12 +563,88 @@ void printMap()
     }
 }
 
-// void solution2(memory_t &data, bool withDisplay)
-// {
-// }
+/**
+ * Idea:
+ * Start with the oxygen point. Create new oxygen in all 4 directions, until a wall is reached.
+ * Register each new oxygen point in a "to process" list.
+ * Now, process the "to process" list, do the same for each oxygen point, and register new oxygen.
+ * Repeat until no more oxygen is in the process list.
+ */
+void solution2(Point *oStart, bool display)
+{
+    vector<Point *> processList;
+    vector<Point *> nextToProcess;
+    processList.push_back(oStart);
+    int counter = 0;
+    Point *act;
+    while (processList.size() > 0)
+    {
+        nextToProcess.clear();
+        for (auto oxy : processList)
+        {
+            // Check all 4 directions for an empty space:
+            act = nullptr;
+            // Up:
+            if (oxy->y > 0)
+            {
+                act = floorMap[oxy->y - 1][oxy->x];
+                if (act->object == ' ')
+                {
+                    act->object = 'O';
+                    nextToProcess.push_back(act);
+                }
+            }
+            // right:
+            if (oxy->x < floorMap[0].size())
+            {
+                act = floorMap[oxy->y][oxy->x + 1];
+                if (act->object == ' ')
+                {
+                    act->object = 'O';
+                    nextToProcess.push_back(act);
+                }
+            }
+            // down:
+            if (oxy->y < floorMap.size())
+            {
+                act = floorMap[oxy->y + 1][oxy->x];
+                if (act->object == ' ')
+                {
+                    act->object = 'O';
+                    nextToProcess.push_back(act);
+                }
+            }
+            // left
+            if (oxy->x > 0)
+            {
+                act = floorMap[oxy->y][oxy->x - 1];
+                if (act->object == ' ')
+                {
+                    act->object = 'O';
+                    nextToProcess.push_back(act);
+                }
+            }
+        }
+        if (display)
+        {
+            printMap();
+            std::chrono::milliseconds timespan(30);
+            std::this_thread::sleep_for(timespan);
+        }
+        counter++;
+        processList.clear();
+        processList = nextToProcess;
+    }
+    counter--; // one too much, last does not count
+    if (display) {
+        printMap();
+    }
+    cout << "Solution 2: Room filled after " << counter << " Minutes" << endl;
+}
 
 int main(int argc, char *args[])
 {
+    bool display = argc >= 3 && string("--display").compare(args[2]) == 0 ? true : false;
     if (argc < 2)
     {
         cerr << "Error: give input file on command line" << endl;
@@ -586,7 +665,10 @@ int main(int argc, char *args[])
     memory_t run1_data(data);
     // memory_t run2_data(data);
     solution1(run1_data);
-    Point* oxygenStart = buildFloorMap();
-    printMap();
-    // solution2(run2_data, argc >= 3 && string("--display").compare(args[2]) == 0 ? true : false);
+
+    Point *oxygenStart = buildFloorMap();
+    if (display) {
+        printMap();
+    }
+    solution2(oxygenStart, display);
 }
