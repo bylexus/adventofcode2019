@@ -10,6 +10,7 @@ link_directories(/opt/local/lib)
 add_compile_definitions(cimg_display=0)
 add_library(common src/common.cpp)
 
+add_executable(playground src/playground.cpp)
 add_executable(day_01 src/day_01.cpp)
 add_executable(day_02 src/day_02.cpp)
 add_executable(day_03 src/day_03.cpp)
@@ -25,6 +26,7 @@ add_executable(day_12 src/day_12.cpp)
 add_executable(day_13 src/day_13.cpp)
 add_executable(day_14 src/day_14.cpp)
 add_executable(day_15 src/day_15.cpp)
+add_executable(day_16 src/day_16.cpp)
 
 target_link_libraries(day_01 PUBLIC common)
 target_link_libraries(day_02 PUBLIC common)
@@ -41,6 +43,7 @@ target_link_libraries(day_12 PUBLIC common)
 target_link_libraries(day_13 PUBLIC common)
 target_link_libraries(day_14 PUBLIC common)
 target_link_libraries(day_15 PUBLIC common)
+target_link_libraries(day_16 PUBLIC common)
 
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")

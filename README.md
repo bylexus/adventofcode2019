@@ -157,3 +157,19 @@ distribution live:
 <img src="day-15.small.gif" />
 <figcaption>Day 15 - Solution in action</figcaption>
 </figure>
+
+### Day 16
+
+This is the first time I don't finish both puzzles.
+
+Part 1 was pretty straight forward, and I did it in the realization that it *might* be
+not an optimal approach for the 2nd part, as I guessed would be some magnitues
+longer to process...
+
+And so it was :-)) It was just not possible to use the brute force approach on the 2nd part.
+So there need to be some kind of pattern in how the numbers will change over time.
+
+I just did not get it. Afer reading some of the subreddit entries, I just came to the conclusion
+that I never would have found out that by myself, so I let the 2nd part unresolved...
+
+Sad...
