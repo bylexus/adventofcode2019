@@ -19,4 +19,16 @@ void readLines(char *filename, vector<string> &data);
 void split(const string &str, char delim, vector<string> &data);
 
 string trim(const string &str);
+
+class Coord {
+    public:
+        int x,y;
+
+        Coord():Coord(0,0) {}
+        Coord(int x, int y): x{x}, y{y} {}
+
+        bool operator<(const Coord &p) const {
+            return x < p.x || y < p.y;
+        }
+};
 #endif
