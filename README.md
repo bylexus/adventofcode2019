@@ -173,3 +173,16 @@ I just did not get it. Afer reading some of the subreddit entries, I just came t
 that I never would have found out that by myself, so I let the 2nd part unresolved...
 
 Sad...
+
+### Day 17
+
+Step 1 was simple: Printing an ASCII map, generated with the Intcode processor and a given
+input program.
+
+Step 2 was hard: I processed the scaffold and let the robot walk, turn, walk, until I reach
+the end. I collected all commands during that process.
+
+Then one needed to split those into 3 groups, which I really did on pen-and-paper.
+I didn't had the nerve to find groups of strings programmatically.
+
+Worked in the end :-))
