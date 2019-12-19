@@ -186,3 +186,21 @@ Then one needed to split those into 3 groups, which I really did on pen-and-pape
 I didn't had the nerve to find groups of strings programmatically.
 
 Worked in the end :-))
+
+
+### Day 18
+
+My oh my... This is the first puzzle I have to skip. I /think/ this might be some kind of
+Travelling Salesman / Path finding problem, but I just don't get a feasible idea how to solve this.
+Besides, it looks like a lot of work, which I just don't have now...
+
+:-(
+
+### Day 19
+
+Problem 1 was easy, when I finally noticed that I had to reload the program for each point I want to probe:
+As soon as the program ran, and tested one point, it dit not deliver a 2nd point. So for each point I reloaded the whole program.
+
+Problem 2 at first seem to be hard, as it was not possible to simply calculate a NxM field, as it took way too long to probe one point.
+So I had to narrow the values: Where do X begin for a given Y, and do the ship's coordinate fit exactly into the beam.
+Then it was a simple bisect to find the correct y.
