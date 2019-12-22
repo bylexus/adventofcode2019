@@ -30,5 +30,11 @@ class Coord {
         bool operator<(const Coord &p) const {
             return x < p.x || y < p.y;
         }
+        bool operator==(const Coord &p) const {
+            return x == p.x && y == p.y;
+        }
+        bool operator!=(const Coord &p) const {
+            return x != p.x || y == p.y;
+        }
 };
 #endif

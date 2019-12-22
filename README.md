@@ -204,3 +204,31 @@ As soon as the program ran, and tested one point, it dit not deliver a 2nd point
 Problem 2 at first seem to be hard, as it was not possible to simply calculate a NxM field, as it took way too long to probe one point.
 So I had to narrow the values: Where do X begin for a given Y, and do the ship's coordinate fit exactly into the beam.
 Then it was a simple bisect to find the correct y.
+
+### Day 20
+
+Another maze - this time with teleporters, which do not cause much trouble besides parsing.
+For solution 1, it took a while to parse the input, then it was a straight-forward diykstra in the end:
+walk through the whole maze with dfs, update distances to the start on each point (the smaller the better).
+While walking, consider to follow a path as follows:
+- not yet visited: walk!
+- visited, but actual distance is shorter than already noted distance: walk!
+- visited, but actual distance is longer that already noted distance: not walk!
+
+The 2nd part introduces another leven, or z-axis, to the maze. I will do that later. It does not
+seem to be much more trouble, but who knows.... My idea:
+- copy the maze for each level
+- walk through a lower-level maze until leave (up or down)
+- limit the level to max. nr of teleports (you cannot go deeper than # of teleports)
+
+### Day 21
+
+Todo at a later point - seems to be a logic problem.
+
+### Day 22
+
+OK, I *guess* the naïve solution will work for part 1, but not part 2: Just instantiate an array and
+deal the cards in the array.
+
+Aaaand yes, that's what I guessed :-)) 2nd part is ways out of bounds for the naïve solution.
+Have to think about that for a while...
