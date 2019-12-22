@@ -12,7 +12,7 @@ using namespace std;
  * Fills a vector with all input data
  */
 template<typename T>
-void readData(char *filename, char delim, vector<T> &data);
+void readData(const char *filename, char delim, vector<T> &data);
 
 void readLines(char *filename, vector<string> &data);
 

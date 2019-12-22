@@ -18,7 +18,7 @@ using namespace std;
  * Fills a vector with all input data
  */
 template<typename T>
-void readData(char *filename, char delim, vector<T> &data)
+void readData(const char *filename, char delim, vector<T> &data)
 {
     ifstream infile(filename);
     string token;
@@ -30,9 +30,9 @@ void readData(char *filename, char delim, vector<T> &data)
 }
 
 // define template functions as needed:
-template void readData<long>(char *, char, vector<long> &);
-template void readData<int>(char *, char, vector<int> &);
-template void readData<string>(char *, char, vector<string> &);
+template void readData<long>(const char *, char, vector<long> &);
+template void readData<int>(const char *, char, vector<int> &);
+template void readData<string>(const char *, char, vector<string> &);
 
 /**
  * Reads a file and returns the single lines in a vector

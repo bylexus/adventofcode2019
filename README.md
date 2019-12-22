@@ -223,7 +223,8 @@ seem to be much more trouble, but who knows.... My idea:
 
 ### Day 21
 
-Todo at a later point - seems to be a logic problem.
+This one was a tricky logic puzzle. Solved it not fully by myself (had to inspire me by taking a look)
+at the solution subredit.
 
 ### Day 22
 
