@@ -58,6 +58,7 @@ class Nic : public Program
 {
     private:
         std::mutex m;
+        std::mutex wm;
 
     public:
 
@@ -74,8 +75,8 @@ class Nic : public Program
             m.lock();
             if (this->inputValues.empty()) {
                 val = cpp_int(-1);
-                std::this_thread::sleep_for(std::chrono::milliseconds(20));
             } else {
+                std::this_thread::sleep_for(std::chrono::milliseconds(20));
                 val = this->inputValues.front();
                 this->inputValues.pop();
             }
@@ -98,10 +99,10 @@ class Nic : public Program
          * thread-safe way to put things in queue, so that the items are in-order
          */
         void pushInputValues(cpp_int xVal, cpp_int yVal) {
-            m.lock();
+            wm.lock();
             this->inputValues.push(xVal);
             this->inputValues.push(yVal);
-            m.unlock();
+            wm.unlock();
         }
 
         /**
