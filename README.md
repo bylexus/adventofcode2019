@@ -233,3 +233,18 @@ deal the cards in the array.
 
 Aaaand yes, that's what I guessed :-)) 2nd part is ways out of bounds for the naïve solution.
 Have to think about that for a while...
+
+### Day 23
+
+The Intcode Processor goes multi-threaded! Because in- and outputs of the Intcode Network Interface Cards need to
+run async, I learned about C++ threads - those are really simple to use, almost Java-like :-))
+
+I realized that reading / putting input values into the input buffer need to be thread safe - I used a mutex lock
+to accomplish that.
+
+For some reason the Part 1 programs always locked up after some message in-/output. So I slept the threads
+for some miliseconds when requesting values from an empty queue - which helped in the end.
+Why? I have no idea....
+
+I don't start part 2 now, it's too late ...
+
