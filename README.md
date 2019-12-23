@@ -246,5 +246,10 @@ For some reason the Part 1 programs always locked up after some message in-/outp
 for some miliseconds when requesting values from an empty queue - which helped in the end.
 Why? I have no idea....
 
-I don't start part 2 now, it's too late ...
+Part 2 was a bit of a timing issue in the end. Detecting "idleness" needed some fiddling with
+locking the input queue while accessing it. It took a while to run through (~ 1 minute), but
+worked finally.
+
+I'm not really happy with that solution (arbitary thread sleep). I'm sure there is a more elegant and faster way to
+achieve that.
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <map>
+#include <set>
 #include <queue>
 #include "common.h"
 #include "intcode.h"
@@ -26,9 +26,33 @@ using namespace boost;
 
 // Forward declaration of Nic:
 class Nic;
+class NAT;
 
 // Our nic container
 vector<std::shared_ptr<Nic>> nics;
+
+class NAT {
+    private:
+        std::mutex m;
+        cpp_int packetX = 0;
+        cpp_int packetY = 0;
+        cpp_int lastYValueSent = 0;
+
+    public:
+        void sendPacket(cpp_int x, cpp_int y) {
+            m.lock();
+            cout << "NAT has received packet: " << x << ":" << y << endl;
+            packetX = x;
+            packetY = y;
+            m.unlock();
+        }
+
+    void checkIdle();
+};
+
+
+// The NAT:
+NAT nat;
 
 class Nic : public Program
 {
@@ -57,6 +81,17 @@ class Nic : public Program
             }
             m.unlock();
             return val;
+        }
+
+        bool isIdle()
+        {
+            bool idle = false;
+            m.lock();
+            if (this->inputValues.empty()) {
+                idle = true;
+            }
+            m.unlock();
+            return idle;
         }
 
         /**
@@ -93,6 +128,8 @@ class Nic : public Program
                 // Have we reached solution 1?
                 if (destAddr == 255) {
                     cout << "Solution 1: Y Value sent to Addr 255: " << yVal << endl;
+                    // Send value to NAT:
+                    nat.sendPacket(xVal, yVal);
                 }
 
                 // Send the packet to its destination:
@@ -105,6 +142,34 @@ class Nic : public Program
         }
 };
 
+void NAT::checkIdle()
+{
+    set<cpp_int> seenValues;
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        cout << "NAT is looking for idleness ..." << endl;
+        bool idle = true;
+        if (packetX == 0 && packetY == 0) continue;
+        for (auto n : nics) {
+            if (n->isIdle() != true)
+            {
+                idle = false;
+                break;
+            }
+        }
+        if (idle) {
+            cout << "NAT Detected Idleness... So sad! Send " << packetX << ":" << packetY << " to 0." << endl;
+            if (seenValues.count(packetY) > 0) {
+                cout << "NAT detected same Y value in a row: " << packetY << endl;
+                break;
+            }
+            seenValues.insert(packetY);
+            (nics[0])->pushInputValues(packetX, packetY);
+            packetX = 0;
+            packetY = 0;
+        }
+    }
+}
 
 
 void solution1(memory_t &data)
@@ -121,7 +186,9 @@ void solution1(memory_t &data)
         threads.push_back(std::make_shared<std::thread>(std::ref(*nic)));
     }
 
-    (threads[0])->join();
+    nat.checkIdle();
+
+    // (threads[0])->join();
 }
 
 int main(int argc, char *args[])
