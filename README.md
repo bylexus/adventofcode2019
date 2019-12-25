@@ -253,3 +253,30 @@ worked finally.
 I'm not really happy with that solution (arbitary thread sleep). I'm sure there is a more elegant and faster way to
 achieve that.
 
+### Day 24
+
+Part 1, easy, just some applying ruling.
+Part 2, no idea so far, some combination of recursive spreading in all directions, but have no time solving this....
+
+
+### Day 25
+
+That was fun! The Intcode program provided was a little text adventure. First I provided an input routine
+that asks for inputs from the command line, like "north", "take item" etc.
+
+Then I played the adventure to explore all rooms manually, until I got a map of the whole area:
+
+<img src="src/day_25.png" />
+
+So I landed in front of the Security Floor's weight check. I picked up 8 items so far, and one combination
+of those items must be the correct one.
+
+So I built a permuted list of all 256 possibilities.
+
+I also created a "Walkthrough" of commands: I entered the commands initially manually, took a list of it,
+and set up my program to feed the commands programmatically, trying out all of the item combinations.
+
+And volià, that led to the solution! Unfortunately I have too less starts (all (!)) riddles must be solved
+in order to proceed.
+
+From my point of view, that was the funniest day!

@@ -1,0 +1,81 @@
+@startuml
+    state "Hull Breach" as hull_breach
+    state "Stables" as stables: escape pod
+    state "Observatory" as obs: coin
+    state "Arcade" as arc: Spool of cat6
+    state "Science Lab" as sci: giant electromagnet (don't take)
+    state "Kitchen" as kit
+    state "Warp drive maintenance" as warp
+    state "Holodeck" as holo: infinite loop (don't take)
+    state "Corridor" as corr1
+    state "Crew quarters" as crew: fuel cell
+    state "Storage" as storage: molten lava (don't take)
+    state "Gift wrapping Center" as gift: candy cane
+    state "Engineering" as eng: hypercube
+    state "Passages" as pass1
+    state "Sick Bay" as sick: photons (don't take)
+    state "Hallway" as hall: tambourine
+    state "Navigation" as nav: weather machine
+    state "Hot Chocolate Fountain" as choc: mutex
+    state "Security Checkpoint" as sec
+    state "Weigh Floor" as weigh
+
+    [*] --> hull_breach
+    hull_breach -up-> stables: north
+    hull_breach -down-> holo: south
+    hull_breach -left-> kit: west
+
+    kit -right-> hull_breach: east
+    kit -left-> warp: west
+
+    warp -right-> kit: east
+
+    holo -up-> hull_breach: north
+    holo -left-> corr1: west
+
+    corr1 -right-> holo: east
+    corr1 -up-> crew: north
+
+    crew -left-> storage: west
+    crew -down-> corr1: south
+
+    storage -right-> crew: east
+
+    stables -down-> hull_breach: south
+    stables -up-> obs: north
+    stables -right-> gift: east
+
+    gift -down-> eng: south
+    gift -up-> sick: north
+    gift -left-> stables: west
+
+    sick -down-> gift: south
+
+    eng -right-> pass1: east
+    eng -up-> gift: north
+
+    obs -down-> stables: south
+    obs -left-> arc: west
+    obs -right-> hall: east
+
+    hall -left-> obs: west
+
+    arc -down-> sci: south
+    arc -up-> nav: north
+    arc -right-> obs: east
+
+    nav -down-> arc: south
+    nav -left-> choc: west
+
+    choc -left-> sec: west
+    choc -right-> nav: east
+
+    sec -left-> weigh: west
+    sec -right-> choc: east
+
+    weigh -right-> sec: east
+
+    sci -up-> arc: north
+
+    pass1 -left-> eng: west
+@enduml
